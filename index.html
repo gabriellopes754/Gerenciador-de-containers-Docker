@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Contêineres Docker</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>Contêineres Docker</h1>
+
+    <h2>Contêineres Ativos</h2>
+    <table v-if="ativos.length">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Imagem</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="container in ativos" :key="container.id">
+          <td>{{ container.id }}</td>
+          <td>{{ container.nome }}</td>
+          <td>{{ container.imagem }}</td>
+          <td>{{ container.status }}</td>
+          <td class="actions">
+            <button @click="stopContainer(container.id)">Parar</button>
+            <button @click="removeContainer(container.id)">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p v-else class="no-containers">Nenhum contêiner ativo.</p>
+
+    <h2>Contêineres Parados</h2>
+    <table v-if="parados.length">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Imagem</th>
+          <th>Status</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="container in parados" :key="container.id">
+          <td>{{ container.id }}</td>
+          <td>{{ container.nome }}</td>
+          <td>{{ container.imagem }}</td>
+          <td>{{ container.status }}</td>
+          <td class="actions">
+            <button @click="startContainer(container.id)">Iniciar</button>
+            <button @click="removeContainer(container.id)">Remover</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p v-else class="no-containers">Nenhum contêiner parado.</p>
+
+    <h2>Imagens Docker Locais</h2>
+    <table v-if="imagens.length">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Tamanho</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="imagem in imagens" :key="imagem.id">
+          <td>{{ imagem.id }}</td>
+          <td>{{ imagem.nome }}</td>
+          <td>{{ imagem.tamanho }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p v-else class="no-containers">Nenhuma imagem encontrada.</p>
+  </div>
+
+  <script src="app.js"></script> <!-- Referência ao arquivo Vue.js -->
+</body>
+</html>
