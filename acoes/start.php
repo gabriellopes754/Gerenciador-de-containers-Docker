@@ -12,30 +12,30 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 $id = $_GET['id'];
 
 $url = "http://localhost:2375/containers/$id/start";
-$ch = curl_init($url);
+$configcurl = curl_init($url);
 
-curl_setopt_array($ch, [
+curl_setopt_array($configcurl, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_CUSTOMREQUEST => 'POST',
 ]);
 
-$response = curl_exec($ch);
-$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$response = curl_exec($configcurl);
+$http = curl_getinfo($configcurl, CURLINFO_HTTP_CODE);
 
-if (curl_errno($ch)) {
-    echo json_encode(['erro' => curl_error($ch)]);
-    curl_close($ch);
+if (curl_errno($configcurl)) {
+    echo json_encode(['erro' => curl_error($configcurl)]);
+    curl_close($configcurl);
     exit;
 }
 
-curl_close($ch);
+curl_close($configcurl);
 
-if ($httpCode === 204) {
+if ($http === 204) {
     echo json_encode(['mensagem' => "Container $id iniciado com sucesso."]);
 } else {
     echo json_encode([
         'erro' => "Erro ao iniciar container",
-        'codigo_http' => $httpCode,
+        'codigo_http' => $http,
         'resposta' => $response
     ]);
 }

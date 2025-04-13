@@ -3,8 +3,8 @@ require_once __DIR__ . '/../docker.php';
 
 header('Content-Type: application/json');
 
-$rawInput = file_get_contents('php://input');
-$data = json_decode($rawInput, true);
+$corporequisicao = file_get_contents('php://input');
+$data = json_decode($corporequisicao, true);
 
 if (!isset($data['id']) || empty($data['id'])) {
     http_response_code(400);

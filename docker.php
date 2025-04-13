@@ -1,36 +1,36 @@
 <?php
 function dockerRequest($method, $endpoint, $data = null) {
     $url = "http://localhost:2375$endpoint";
-    $ch = curl_init();
+    $guardar = curl_init();
 
-    $options = [
+    $config = [
         CURLOPT_URL => $url,
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_CUSTOMREQUEST => $method,
     ];
 
     if ($data !== null) {
-        $payload = json_encode($data);
-        $options[CURLOPT_POSTFIELDS] = $payload;
-        $options[CURLOPT_HTTPHEADER] = [
+        $dados = json_encode($data);
+        $config[CURLOPT_POSTFIELDS] = $dados;
+        $config[CURLOPT_HTTPHEADER] = [
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($payload),
+            'Content-Length: ' . strlen($dados),
         ];
     }
 
-    curl_setopt_array($ch, $options);
-    $response = curl_exec($ch);
+    curl_setopt_array($guardar, $config);
+    $response = curl_exec($guardar);
 
-    if (curl_errno($ch)) {
-        echo 'Erro cURL: ' . curl_error($ch);
-        curl_close($ch);
+    if (curl_errno($guardar)) {
+        echo 'Erro cURL: ' . curl_error($guardar);
+        curl_close($guardar);
         return null;
     }
 
-    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    $http = curl_getinfo($guardar, CURLINFO_HTTP_CODE);
+    curl_close($guardar);
 
-    if ($httpCode === 204) return true;
+    if ($http === 204) return true;
 
     return json_decode($response, true);
 }
